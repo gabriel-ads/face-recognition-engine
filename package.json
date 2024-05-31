@@ -1,0 +1,22 @@
+{
+  "name": "face-recognition-engine",
+  "version": "1.0.0",
+  "description": "This README would normally document whatever steps are necessary to get your application up and running.",
+  "main": "index.ts",
+  "scripts": {
+    "dev": "tsx watch index.ts",
+    "start": "node dist/index.ts",
+    "build": "tsup index.ts",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fastify": "^4.27.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.13",
+    "tsup": "^8.0.2",
+    "tsx": "^4.11.0"
+  }
+}
