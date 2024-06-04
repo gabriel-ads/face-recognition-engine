@@ -1,4 +1,5 @@
 import fastify from 'fastify'
+import 'dotenv/config'
 
 const server = fastify()
 
@@ -7,10 +8,12 @@ server.get('/ping', async (request, reply) => {
   reply.status(201).send('salve nico belic')
 })
 
-server.listen({ port: 8080 }, (err, address) => {
-  if (err) {
-    console.error(err)
-    process.exit(1)
-  }
-  console.log(`Server listening at ${address}`)
-})
+let port = process.env.PORT ?? 3000;
+
+if (typeof port === 'string') {
+  port = parseInt(port);
+}
+
+server.listen({ port })
+
+
