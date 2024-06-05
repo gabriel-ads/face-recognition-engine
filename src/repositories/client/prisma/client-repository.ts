@@ -1,11 +1,10 @@
 import { Client } from "src/entities/client";
 import { IClientRepository } from "../interface-client-repository";
 import { prisma } from "src/database";
-import { ICreate, IUpdate } from "src/use-cases/interface-client-cases";
+import { ICreate, IUpdate } from "src/use-cases/client/interface-client-cases";
 
 export class ClientRepository implements IClientRepository {
     async create({ name, image, categoryId, developerId }: ICreate): Promise<Client> {
-
         try {
             const client = await prisma.client.create({ data: { name, image, categoryId, developerId } })
 

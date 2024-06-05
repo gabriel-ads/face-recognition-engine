@@ -1,4 +1,4 @@
-import { type Client } from '../entities/client'
+import { type Client } from '../../entities/client'
 
 export type ICreate = Pick<Client, 'name' | 'image' | 'categoryId' | 'developerId'>
 export type IUpdate = Pick<Client, 'id' | 'name' | 'image' | 'categoryId'>

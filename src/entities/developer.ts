@@ -1,9 +1,9 @@
 export class Developer {
-    id: number
+    id?: number
     createdAt?: Date
     updatedAt?: Date
     name: string
-    token: string
+    token?: string
     clients?: Array<{
         id: number
         name: string

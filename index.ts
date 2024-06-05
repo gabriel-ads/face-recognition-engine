@@ -4,7 +4,6 @@ import 'dotenv/config'
 const server = fastify()
 
 server.get('/ping', async (request, reply) => {
-
   reply.status(201).send('salve nico belic')
 })
 

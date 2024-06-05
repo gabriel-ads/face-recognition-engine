@@ -1,5 +1,5 @@
 import { Client } from "src/entities/client"
-import { ICreate, IUpdate } from "src/use-cases/interface-client-cases"
+import { ICreate, IUpdate } from "src/use-cases/client/interface-client-cases"
 
 export interface IClientRepository {
     create: (client: ICreate) => Promise<Client>
