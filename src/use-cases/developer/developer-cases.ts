@@ -6,8 +6,8 @@ export class DeveloperCases implements IDeveloperCases {
     constructor(private readonly DeveloperRepository: IDeveloperRepository
     ) { }
 
-    async create({ name }: ICreate): Promise<Developer> {
-        const developer = new Developer({ name })
+    async create({ name, username, password, token }: ICreate): Promise<Developer> {
+        const developer = new Developer({ name, username, password, token })
 
         const developerResponse = await this.DeveloperRepository.create(developer)
 
@@ -20,8 +20,8 @@ export class DeveloperCases implements IDeveloperCases {
         return developerResponse
     }
 
-    async update({ name, token }: IUpdate): Promise<Developer> {
-        const developer = new Developer({ name, token })
+    async update({ id, name, username, password, token }: IUpdate): Promise<Developer> {
+        const developer = new Developer({ id, name, username, password, token })
 
         const developerResponse = await this.DeveloperRepository.update(developer)
 

@@ -1,37 +1,47 @@
 import { DeveloperCases } from "src/use-cases/developer/developer-cases";
-import { IDeveloperController, ICustomBodyType, ICustomFastifyReply, ICustomRouteParams } from "./interface-developer-controller";
-import { FastifyRequest } from "fastify";
+import { IDeveloperController, CustomFastifyDeveloperRequest } from "./interface-developer-controller";
+import { FastifyReply } from "fastify";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken"
 
 export class DeveloperController implements IDeveloperController {
     constructor(private readonly developerCases: DeveloperCases) { }
 
-    async create(request: FastifyRequest<{ Body: ICustomBodyType }>, reply: ICustomFastifyReply) {
-        const { name } = request.body
+    async create(request: CustomFastifyDeveloperRequest, reply: FastifyReply) {
+        request.body.password = bcrypt.hashSync(request.body.password, 10);
+        const { name, username, password } = request.body
+
+        const developerObject = { name, username, password }
+
+        const token = jwt.sign({ developerObject }, (process.env.SECRET_KEY as string), {
+            expiresIn: '365d'
+        })
 
         const developer = await this.developerCases.create({
-            name,
+            name, username, password, token
         })
 
         return reply.send(developer)
     }
 
-    async read(reply: ICustomFastifyReply) {
+    async read(reply: FastifyReply) {
         const developer = await this.developerCases.read()
 
         return reply.send(developer)
     }
 
-    async update(request: FastifyRequest<{ Body: ICustomBodyType }>, reply: ICustomFastifyReply) {
-        const { id, name, token } = request.body
+    async update(request: CustomFastifyDeveloperRequest, reply: FastifyReply) {
+        const { id, name, username, password } = request.body
+        const { token } = request.developer
 
         const developer = await this.developerCases.update({
-            id, name, token
+            id, name, username, password, token
         })
 
         return reply.send(developer)
     }
 
-    async delete(request: FastifyRequest<{ Body: ICustomBodyType, Params: ICustomRouteParams }>, reply: ICustomFastifyReply) {
+    async delete(request: CustomFastifyDeveloperRequest, reply: FastifyReply) {
         const id = parseInt(request.params.id)
 
         const developer = await this.developerCases.delete(id)

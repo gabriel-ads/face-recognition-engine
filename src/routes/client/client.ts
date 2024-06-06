@@ -1,8 +1,9 @@
-import { FastifyRequest } from 'fastify';
-import { ICustomBodyType, ICustomFastifyReply, ICustomRouteParams } from 'src/controllers/client/interface-client-controller';
+import { FastifyReply } from 'fastify';
+import { CustomFastifyClientRequest } from 'src/controllers/client/interface-client-controller';
 import { clientFactory } from 'src/factories/client/client-factory';
+import { auth } from 'src/middleware/auth';
 
-type RouteHandler = (request: FastifyRequest<{ Body: ICustomBodyType, Params: ICustomRouteParams }>, reply: ICustomFastifyReply) => Promise<void>;
+type RouteHandler = (request: CustomFastifyClientRequest, reply: FastifyReply) => Promise<void>;
 
 
 const createClients: RouteHandler = async (request, reply) => {
@@ -23,10 +24,10 @@ const deleteClients: RouteHandler = async (request, reply) => {
 
 
 export default function registerClientRoutes(fastify: any, options: any, done: any) {
-    fastify.post('/create', createClients)
-    fastify.get('/', readClients);
-    fastify.update('/update', updateClients)
-    fastify.update('/delete/:id', deleteClients)
+    fastify.post('/create', auth, createClients)
+    fastify.get('/', auth, readClients);
+    fastify.update('/update', auth, updateClients)
+    fastify.update('/delete/:id', auth, deleteClients)
 
     done();
 }

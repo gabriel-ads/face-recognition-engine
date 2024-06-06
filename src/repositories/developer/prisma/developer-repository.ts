@@ -4,9 +4,9 @@ import { prisma } from "src/database";
 import { ICreate, IUpdate } from "src/use-cases/developer/interface-developer-cases";
 
 export class DeveloperRepository implements IDeveloperRepository {
-    async create({ name, token }: ICreate): Promise<Developer> {
+    async create({ name, username, password, token }: ICreate): Promise<Developer> {
         try {
-            const developer = await prisma.developer.create({ data: { name, token } })
+            const developer = await prisma.developer.create({ data: { name, username, password, token } })
 
             return developer as Developer
         } catch (error) {

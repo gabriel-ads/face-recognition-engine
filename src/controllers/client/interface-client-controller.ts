@@ -10,7 +10,11 @@ export interface ICustomBodyType {
     categoryId: number
 }
 
-export interface ICustomFastifyReply extends FastifyReply {
+export interface ICustomRouteParams {
+    id: string
+}
+
+export interface CustomFastifyClientRequest extends FastifyRequest {
     developer: {
         id: number
         createdAt?: Date
@@ -28,15 +32,13 @@ export interface ICustomFastifyReply extends FastifyReply {
             developerId: number
         }>
     }
-}
-
-export interface ICustomRouteParams {
-    id: string
+    body: ICustomBodyType
+    params: ICustomRouteParams
 }
 
 export interface IClientController {
-    create: (request: FastifyRequest<{ Body: ICustomBodyType }>, reply: ICustomFastifyReply) => object
-    read: (reply: ICustomFastifyReply) => object
-    update: (request: FastifyRequest<{ Body: ICustomBodyType }>, reply: ICustomFastifyReply) => object
-    delete: (request: FastifyRequest<{ Body: ICustomBodyType, Params: ICustomRouteParams }>, reply: ICustomFastifyReply) => object
+    create: (request: CustomFastifyClientRequest, reply: FastifyReply) => object
+    read: (reply: FastifyReply) => object
+    update: (request: CustomFastifyClientRequest, reply: FastifyReply) => object
+    delete: (request: CustomFastifyClientRequest, reply: FastifyReply) => object
 }

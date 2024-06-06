@@ -3,6 +3,8 @@ export class Developer {
     createdAt?: Date
     updatedAt?: Date
     name: string
+    username: string
+    password: string
     token?: string
     clients?: Array<{
         id: number
@@ -16,10 +18,19 @@ export class Developer {
     }>
 
     constructor(props: Developer) {
-        const { id, name, token } = props
+        const { id, name, username, password, token } = props
+        const pattern = /\s/gm
+
+        const regex = new RegExp(pattern)
+
+        if (regex.test(username)) {
+            throw new Error('Username cannot contain spaces')
+        }
 
         this.id = id
         this.name = name
+        this.username = username
+        this.password = password
         this.token = token
     }
 }
