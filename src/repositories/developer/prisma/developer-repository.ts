@@ -65,7 +65,7 @@ export class DeveloperRepository implements IDeveloperRepository {
                 where: { id }
             })
 
-            return `Usuário deletado com sucesso.`
+            return `Usuário deletado com sucesso`
         } catch (error) {
             throw new Error(error as string)
         }

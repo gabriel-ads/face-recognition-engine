@@ -26,6 +26,8 @@ interface JwtPayload extends jwt.JwtPayload {
 export const auth = async (request: CustomFastifyRequest, reply: FastifyReply, next: () => void) => {
     const token = request.headers.authorization
     const paramId = parseInt(request.params.id)
+    const route = request.url
+    const isClientRoute = route.includes('client')
 
     if (token) {
         try {
@@ -40,10 +42,9 @@ export const auth = async (request: CustomFastifyRequest, reply: FastifyReply, n
                     const { developer } = jwt.verify(token, (process.env.SECRET_KEY as string)) as JwtPayload
                     const { id: tokenId } = developer
 
-                    if (!paramId || tokenId === paramId) {
+                    if (isClientRoute || !paramId || tokenId === paramId) {
                         developer.token = token
                         request.developer = developer
-                        next()
                     } else {
                         return reply.status(401).send('Access Denied.')
                     }

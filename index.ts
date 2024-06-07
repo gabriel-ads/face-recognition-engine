@@ -5,10 +5,6 @@ import registerDeveloperRoutes from 'src/routes/developer/developer'
 
 const server = fastify()
 
-server.get('/ping', async (request, reply) => {
-  reply.status(201).send('salve nico belic')
-})
-
 server.register(registerClientRoutes, { prefix: '/client' })
 server.register(registerDeveloperRoutes, { prefix: '/developer' })
 

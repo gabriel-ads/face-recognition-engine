@@ -3,7 +3,8 @@ export class Client {
     createdAt?: Date
     updatedAt?: Date
     name: string
-    image: {
+    clientUserId?: number
+    image?: {
         base64: string
         url: string
     }
@@ -11,14 +12,12 @@ export class Client {
     developerId?: number
 
     constructor(props: Client) {
-        const { id, name, image: imagem, categoryId, developerId } = props
+        const { id, name, image, clientUserId, categoryId, developerId } = props
 
         this.id = id
         this.name = name
-        this.image = {
-            base64: imagem.base64,
-            url: imagem.url
-        }
+        this.image = image
+        this.clientUserId = clientUserId
         this.categoryId = categoryId
         this.developerId = developerId
     }
