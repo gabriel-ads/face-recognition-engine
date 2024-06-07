@@ -11,17 +11,26 @@ export class DeveloperController implements IDeveloperController {
         request.body.password = bcrypt.hashSync(request.body.password, 10);
         const { name, username, password } = request.body
 
-        const developerObject = { name, username, password }
+        const alreadyExist = await this.developerCases.checkExistence(username)
 
-        const token = jwt.sign({ developerObject }, (process.env.SECRET_KEY as string), {
-            expiresIn: '365d'
-        })
+        if (alreadyExist) {
+            return reply.status(400).send('User already exist')
+        } else {
+            const developer = await this.developerCases.create({
+                name, username, password
+            })
 
-        const developer = await this.developerCases.create({
-            name, username, password, token
-        })
+            const token = jwt.sign({ developer }, (process.env.SECRET_KEY as string), {
+                expiresIn: '365d'
+            })
 
-        return reply.send(developer)
+            const { id } = developer
+            const developerWithToken = await this.developerCases.update({
+                id, username, token
+            })
+
+            return reply.send(developerWithToken)
+        }
     }
 
     async read(reply: FastifyReply) {
@@ -31,20 +40,29 @@ export class DeveloperController implements IDeveloperController {
     }
 
     async update(request: CustomFastifyDeveloperRequest, reply: FastifyReply) {
-        const { id, name, username, password } = request.body
+        const paramId = parseInt(request.params.id)
+        const { name, username, password } = request.body
         const { token } = request.developer
 
-        const developer = await this.developerCases.update({
-            id, name, username, password, token
-        })
+        const alreadyExist = await this.developerCases.checkExistence(username)
 
-        return reply.send(developer)
+        if (alreadyExist) {
+            return reply.status(400).send('User already exist')
+        } else {
+            const developer = await this.developerCases.update({
+                id: paramId, name, username, password, token
+            })
+
+            return reply.send(developer)
+        }
     }
 
-    async delete(request: CustomFastifyDeveloperRequest, reply: FastifyReply) {
-        const id = parseInt(request.params.id)
 
-        const developer = await this.developerCases.delete(id)
+
+    async delete(request: CustomFastifyDeveloperRequest, reply: FastifyReply) {
+        const paramId = parseInt(request.params.id)
+
+        const developer = await this.developerCases.delete(paramId)
 
         return reply.send(developer)
     }

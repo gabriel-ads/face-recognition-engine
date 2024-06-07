@@ -6,4 +6,6 @@ export interface IDeveloperRepository {
     read: () => Promise<Developer[]>
     update: (developer: IUpdate) => Promise<Developer>
     delete: (id: number) => Promise<string>
+
+    checkExistence: (username: string) => Promise<boolean>
 }

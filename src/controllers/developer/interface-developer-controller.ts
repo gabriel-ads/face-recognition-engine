@@ -14,20 +14,9 @@ export interface ICustomRouteParams {
 export interface CustomFastifyDeveloperRequest extends FastifyRequest {
     developer: {
         id: number
-        createdAt?: Date
-        updatedAt?: Date
         name: string
+        password: string
         token: string
-        clients?: Array<{
-            id: number
-            name: string
-            imagem: {
-                base64: string
-                url: string
-            }
-            categoryId: number
-            developerId: number
-        }>
     }
     body: ICustomBodyType
     params: ICustomRouteParams

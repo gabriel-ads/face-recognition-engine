@@ -13,24 +13,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Client{
+model Client {
   id          Int       @id @default(autoincrement())
+  clientUserId Int
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   name        String    @db.VarChar(255)
   image       Json
-  categoryId Int
+  categoryId  Int
   developer   Developer @relation(fields: [developerId], references: [id])
   developerId Int
 }
 
-model Developer{
+model Developer {
   id          Int       @id @default(autoincrement())
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   name        String    @db.VarChar(255)
   username    String    @unique
   password    String
-  token       String    @db.VarChar(500)
+  token       String?    @db.VarChar(500)
   clients     Client[]
 }

@@ -8,4 +8,5 @@ export interface IDeveloperCases {
     read: () => Promise<Developer[]>
     update: ({ id, name, username, password, token }: IUpdate) => Promise<Developer>
     delete: (id: number) => Promise<string>
+    checkExistence: (username: string) => Promise<boolean>
 }

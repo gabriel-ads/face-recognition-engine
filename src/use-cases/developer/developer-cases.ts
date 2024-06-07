@@ -6,8 +6,14 @@ export class DeveloperCases implements IDeveloperCases {
     constructor(private readonly DeveloperRepository: IDeveloperRepository
     ) { }
 
-    async create({ name, username, password, token }: ICreate): Promise<Developer> {
-        const developer = new Developer({ name, username, password, token })
+    async checkExistence(username: string) {
+        const checkResponse = await this.DeveloperRepository.checkExistence(username)
+
+        return checkResponse
+    }
+
+    async create({ name, username, password }: ICreate): Promise<Developer> {
+        const developer = new Developer({ name, username, password })
 
         const developerResponse = await this.DeveloperRepository.create(developer)
 

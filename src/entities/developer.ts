@@ -2,9 +2,9 @@ export class Developer {
     id?: number
     createdAt?: Date
     updatedAt?: Date
-    name: string
-    username: string
-    password: string
+    name?: string
+    username?: string
+    password?: string
     token?: string
     clients?: Array<{
         id: number
@@ -23,9 +23,14 @@ export class Developer {
 
         const regex = new RegExp(pattern)
 
-        if (regex.test(username)) {
-            throw new Error('Username cannot contain spaces')
+        if (username) {
+            if (regex.test(username)) {
+                throw new Error('Username cannot contain spaces')
+            }
+        } else {
+            throw new Error('Username cannot be empty')
         }
+
 
         this.id = id
         this.name = name
