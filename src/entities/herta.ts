@@ -1,9 +1,6 @@
-export class Client {
-    id?: number
-    createdAt?: Date
-    updatedAt?: Date
+export class Herta {
+    clientUserId?: number
     name: string
-    clientUserId: number
     image?: {
         base64: string
         url: string
@@ -11,10 +8,9 @@ export class Client {
     categoryId: number
     developerId?: number
 
-    constructor(props: Client) {
-        const { id, name, image, clientUserId, categoryId, developerId } = props
+    constructor(props: Herta) {
+        const { name, image, clientUserId, categoryId, developerId } = props
 
-        this.id = id
         this.name = name
         this.image = image
         this.clientUserId = clientUserId

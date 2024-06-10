@@ -1,8 +1,10 @@
 import { ClientCases } from "src/use-cases/client/client-cases";
 import { CustomFastifyClientRequest, IClientController, } from "./interface-client-controller";
 import { FastifyReply } from "fastify";
+import { HertaRepository } from "src/repositories/herta/external/herta-repository";
 
 export class ClientController implements IClientController {
+    hertaRepository = new HertaRepository()
     constructor(private readonly clientCases: ClientCases) { }
 
     async create(request: CustomFastifyClientRequest, reply: FastifyReply) {
@@ -16,10 +18,13 @@ export class ClientController implements IClientController {
             const client = await this.clientCases.create({
                 name, clientUserId, image, categoryId, developerId
             })
+            if (client) {
+                const { name, clientUserId, image, categoryId } = client
+                await this.hertaRepository.create({ name, clientUserId, image, categoryId })
 
-            return reply.send(client)
+                return reply.send(client)
+            }
         }
-
     }
 
     async read(request: CustomFastifyClientRequest, reply: FastifyReply) {
@@ -38,8 +43,14 @@ export class ClientController implements IClientController {
         const client = await this.clientCases.update({
             clientUserId, name, image, categoryId, developerId
         })
+        if (client) {
+            const { name, clientUserId, image, categoryId } = client
 
-        return reply.send(client)
+            await this.hertaRepository.update({ name, clientUserId, image, categoryId })
+
+            return reply.send(client)
+        }
+
     }
 
     async delete(request: CustomFastifyClientRequest, reply: FastifyReply) {
@@ -48,6 +59,11 @@ export class ClientController implements IClientController {
 
         const client = await this.clientCases.delete(clientUserId, developerId)
 
-        return reply.send(client)
+        if (client) {
+            await this.hertaRepository.delete(clientUserId)
+
+            return reply.send(client)
+        }
+
     }
 }

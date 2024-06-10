@@ -16,7 +16,7 @@ export class ClientRepository implements IClientRepository {
                 }
             })
             if (client) {
-                return true
+                return client as Client
             }
             else {
                 return false
@@ -48,40 +48,55 @@ export class ClientRepository implements IClientRepository {
         }
     }
 
-    async update({ clientUserId, name, image, categoryId, developerId }: IUpdate): Promise<Client> {
-        try {
-            const client = await prisma.clients.update({
-                where: {
-                    clientUserId,
-                    AND: [
-                        { developerId }
-                    ]
-                },
-                data: {
-                    name, image, categoryId
-                }
-            })
+    async update({ clientUserId, name, image, categoryId, developerId }: IUpdate): Promise<Client | string> {
+        const client = await this.checkExistence(clientUserId, developerId as number)
 
-            return client as Client
-        } catch (error) {
-            throw new Error(error as string)
+        if (client) {
+            const { id } = client
+            try {
+                const client = await prisma.clients.update({
+                    where: {
+                        id,
+                        AND: [
+                            { developerId },
+                            { clientUserId }
+                        ]
+                    },
+                    data: {
+                        name, image, categoryId
+                    }
+                })
+
+                return client as Client
+            } catch (error) {
+                throw new Error(error as string)
+            }
+        } else {
+            return 'Usuário não encontrado'
         }
     }
 
     async delete(clientUserId: number, developerId: number): Promise<string> {
-        try {
-            await prisma.clients.delete({
-                where: {
-                    clientUserId,
-                    AND: [
-                        { developerId }
-                    ]
-                }
-            })
+        const client = await this.checkExistence(clientUserId, developerId)
+        if (client) {
+            const { id } = client
+            try {
+                await prisma.clients.delete({
+                    where: {
+                        id,
+                        AND: [
+                            { clientUserId },
+                            { developerId }
+                        ]
+                    }
+                })
 
-            return `Usuário deletado com sucesso`
-        } catch (error) {
-            throw new Error(error as string)
+                return 'Usuário deletado com sucesso'
+            } catch (error) {
+                throw new Error(error as string)
+            }
+        } else {
+            return 'Usuário não encontrado'
         }
     }
 }
