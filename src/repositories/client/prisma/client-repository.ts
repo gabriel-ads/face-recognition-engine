@@ -6,7 +6,7 @@ import { ICreate, IUpdate } from "src/use-cases/client/interface-client-cases";
 export class ClientRepository implements IClientRepository {
     async create({ name, clientUserId, image, categoryId, developerId }: ICreate): Promise<Client> {
         try {
-            const client = await prisma.client.create({ data: { name, clientUserId, image, categoryId, developerId } })
+            const client = await prisma.clients.create({ data: { name, clientUserId, image, categoryId, developerId } })
 
             return client as Client
         } catch (error) {
@@ -16,7 +16,7 @@ export class ClientRepository implements IClientRepository {
 
     async read(developerId: number): Promise<Client[]> {
         try {
-            const client = await prisma.client.findMany({
+            const client = await prisma.clients.findMany({
                 where: { developerId }
             })
 
@@ -26,12 +26,11 @@ export class ClientRepository implements IClientRepository {
         }
     }
 
-    async update({ id, name, image, categoryId, developerId }: IUpdate): Promise<Client> {
-        console.log(developerId)
+    async update({ clientUserId, name, image, categoryId, developerId }: IUpdate): Promise<Client> {
         try {
-            const client = await prisma.client.update({
+            const client = await prisma.clients.update({
                 where: {
-                    id,
+                    clientUserId,
                     AND: [
                         { developerId }
                     ]
@@ -47,11 +46,12 @@ export class ClientRepository implements IClientRepository {
         }
     }
 
-    async delete(id: number, developerId: number): Promise<string> {
+    async delete(clientUserId: number, developerId: number): Promise<string> {
         try {
-            await prisma.client.delete({
+            await prisma.clients.delete({
                 where: {
-                    id, AND: [
+                    clientUserId,
+                    AND: [
                         { developerId }
                     ]
                 }

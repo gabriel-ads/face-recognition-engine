@@ -12,7 +12,7 @@ export interface ICustomBodyType {
 }
 
 export interface ICustomRouteParams {
-    id: string
+    clientUserId: string
 }
 
 export interface CustomFastifyClientRequest extends FastifyRequest {

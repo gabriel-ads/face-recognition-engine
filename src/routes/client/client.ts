@@ -25,8 +25,8 @@ const deleteClients: RouteHandler = async (request, reply) => {
 export default function registerClientRoutes(fastify: any, options: any, done: any) {
     fastify.post('/create', { preHandler: auth }, createClients)
     fastify.get('/', { preHandler: auth }, readClients);
-    fastify.put('/update/:id', { preHandler: auth }, updateClients)
-    fastify.delete('/delete/:id', { preHandler: auth }, deleteClients)
+    fastify.put('/update/:clientUserId', { preHandler: auth }, updateClients)
+    fastify.delete('/delete/:clientUserId', { preHandler: auth }, deleteClients)
 
     done();
 }

@@ -20,16 +20,16 @@ export class ClientCases implements IClientCases {
         return clientResponse
     }
 
-    async update({ id, name, image, categoryId, developerId }: IUpdate): Promise<Client> {
-        const client = new Client({ id, name, image, categoryId, developerId })
+    async update({ clientUserId, name, image, categoryId, developerId }: IUpdate): Promise<Client> {
+        const client = new Client({ clientUserId, name, image, categoryId, developerId })
 
         const clientResponse = await this.clientRepository.update(client)
 
         return clientResponse
     }
 
-    async delete(id: number, developerId: number): Promise<string> {
-        const clientResponse = await this.clientRepository.delete(id, developerId)
+    async delete(clientUserId: number, developerId: number): Promise<string> {
+        const clientResponse = await this.clientRepository.delete(clientUserId, developerId)
 
         return clientResponse
     }

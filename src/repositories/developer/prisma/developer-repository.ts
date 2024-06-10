@@ -7,7 +7,7 @@ export class DeveloperRepository implements IDeveloperRepository {
 
     async checkExistence(username: string) {
         try {
-            const developer = await prisma.developer.findFirst({
+            const developer = await prisma.developers.findFirst({
                 where: {
                     username
                 }
@@ -25,7 +25,7 @@ export class DeveloperRepository implements IDeveloperRepository {
 
     async create({ name, username, password, token }: ICreate): Promise<Developer> {
         try {
-            const developer = await prisma.developer.create({ data: { name, username, password, token } })
+            const developer = await prisma.developers.create({ data: { name, username, password, token } })
 
             return developer as Developer
         }
@@ -36,7 +36,7 @@ export class DeveloperRepository implements IDeveloperRepository {
 
     async read(): Promise<Developer[]> {
         try {
-            const developer = await prisma.developer.findMany()
+            const developer = await prisma.developers.findMany()
 
             return developer as Developer[]
         } catch (error) {
@@ -46,7 +46,7 @@ export class DeveloperRepository implements IDeveloperRepository {
 
     async update({ id, name, username, password, token }: IUpdate): Promise<Developer> {
         try {
-            const developer = await prisma.developer.update({
+            const developer = await prisma.developers.update({
                 where: { id },
                 data: {
                     name, username, password, token

@@ -31,7 +31,7 @@ export const auth = async (request: CustomFastifyRequest, reply: FastifyReply, n
 
     if (token) {
         try {
-            const developerReponse = await prisma.developer.findFirst({
+            const developerReponse = await prisma.developers.findFirst({
                 where: {
                     token,
                 },

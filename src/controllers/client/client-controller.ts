@@ -25,22 +25,22 @@ export class ClientController implements IClientController {
     }
 
     async update(request: CustomFastifyClientRequest, reply: FastifyReply) {
-        const id = parseInt(request.params.id)
+        const clientUserId = parseInt(request.params.clientUserId)
         const { name, image, categoryId } = request.body
         const { id: developerId } = request.developer
 
         const client = await this.clientCases.update({
-            id, name, image, categoryId, developerId
+            clientUserId, name, image, categoryId, developerId
         })
 
         return reply.send(client)
     }
 
     async delete(request: CustomFastifyClientRequest, reply: FastifyReply) {
-        const id = parseInt(request.params.id)
+        const clientUserId = parseInt(request.params.clientUserId)
         const { id: developerId } = request.developer
 
-        const client = await this.clientCases.delete(id, developerId)
+        const client = await this.clientCases.delete(clientUserId, developerId)
 
         return reply.send(client)
     }
