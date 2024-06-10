@@ -14,7 +14,7 @@ if (typeof port === 'string') {
   port = parseInt(port, 10);
 }
 
-server.listen(port, '0.0.0.0', (err, address) => {
+server.listen({ port, host: '0.0.0.0' }, (err, address) => {
   if (err) {
     server.log.error(err);
     process.exit(1);
