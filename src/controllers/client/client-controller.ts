@@ -8,12 +8,18 @@ export class ClientController implements IClientController {
     async create(request: CustomFastifyClientRequest, reply: FastifyReply) {
         const { name, clientUserId, image, categoryId } = request.body
         const { id: developerId } = request.developer
+        const alreadyExist = await this.clientCases.checkExistence(clientUserId, developerId)
 
-        const client = await this.clientCases.create({
-            name, clientUserId, image, categoryId, developerId
-        })
+        if (alreadyExist) {
+            return reply.status(400).send('ClientUserId already exist for this developer.')
+        } else {
+            const client = await this.clientCases.create({
+                name, clientUserId, image, categoryId, developerId
+            })
 
-        return reply.send(client)
+            return reply.send(client)
+        }
+
     }
 
     async read(request: CustomFastifyClientRequest, reply: FastifyReply) {

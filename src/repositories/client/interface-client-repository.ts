@@ -6,4 +6,6 @@ export interface IClientRepository {
     read: (developerId: number) => Promise<Client[]>
     update: (client: IUpdate) => Promise<Client>
     delete: (id: number, developerId: number) => Promise<string>
+
+    checkExistence: (clientUserId: number, developerId: number) => Promise<boolean>
 }

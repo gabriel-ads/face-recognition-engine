@@ -4,6 +4,28 @@ import { prisma } from "src/database";
 import { ICreate, IUpdate } from "src/use-cases/client/interface-client-cases";
 
 export class ClientRepository implements IClientRepository {
+
+    async checkExistence(clientUserId: number, developerId: number) {
+        try {
+            const client = await prisma.clients.findFirst({
+                where: {
+                    clientUserId,
+                    AND: [
+                        { developerId }
+                    ]
+                }
+            })
+            if (client) {
+                return true
+            }
+            else {
+                return false
+            }
+        } catch (error) {
+            throw new Error(error as string)
+        }
+    }
+
     async create({ name, clientUserId, image, categoryId, developerId }: ICreate): Promise<Client> {
         try {
             const client = await prisma.clients.create({ data: { name, clientUserId, image, categoryId, developerId } })

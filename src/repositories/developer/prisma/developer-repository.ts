@@ -61,7 +61,7 @@ export class DeveloperRepository implements IDeveloperRepository {
 
     async delete(id: number): Promise<string> {
         try {
-            await prisma.developer.delete({
+            await prisma.developers.delete({
                 where: { id }
             })
 

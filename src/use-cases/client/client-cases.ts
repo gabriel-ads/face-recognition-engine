@@ -6,6 +6,12 @@ export class ClientCases implements IClientCases {
     constructor(private readonly clientRepository: IClientRepository
     ) { }
 
+    async checkExistence(clientUserId: number, developerId: number) {
+        const checkResponse = await this.clientRepository.checkExistence(clientUserId, developerId)
+
+        return checkResponse
+    }
+
     async create({ name, clientUserId, image, categoryId, developerId }: ICreate): Promise<Client> {
         const client = new Client({ name, clientUserId, image, categoryId, developerId })
 
