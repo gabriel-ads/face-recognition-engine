@@ -11,5 +11,5 @@ export interface HertaResponse {
 export interface IHertaCases {
     create: ({ name, clientUserId, image, categoryId }: ICreate) => Promise<HertaResponse>
     update: ({ clientUserId, name, image, categoryId }: IUpdate) => Promise<HertaResponse>
-    delete: (hertaUserId: number) => Promise<string>
+    delete: (hertaUserId: number) => Promise<HertaResponse>
 }

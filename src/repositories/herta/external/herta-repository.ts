@@ -46,7 +46,7 @@ export class HertaRepository implements IHertaRepository {
         }
     }
 
-    async delete(clientUserId: number): Promise<string> {
+    async delete(clientUserId: number): Promise<HertaResponse> {
         try {
             const hertaResponse = await axios({
                 method: 'delete',
@@ -55,8 +55,6 @@ export class HertaRepository implements IHertaRepository {
                     user_id: clientUserId,
                 }
             });
-
-            console.log(hertaResponse)
 
             return hertaResponse.data as HertaResponse
         } catch (error) {

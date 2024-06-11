@@ -13,15 +13,15 @@ export class HertaCases implements IHertaCases {
         return hertaResponse
     }
 
-    async update({ clientUserId, name, image, categoryId }: IUpdate): Promise<HertaResponse> {
-        const herta = new Herta({ clientUserId, name, image, categoryId })
+    async update({ name, clientUserId, image, categoryId }: IUpdate): Promise<HertaResponse> {
+        const herta = new Herta({ name, clientUserId, image, categoryId })
 
         const hertaResponse = await this.hertaRepository.update(herta)
 
         return hertaResponse
     }
 
-    async delete(clientUserId: number): Promise<string> {
+    async delete(clientUserId: number): Promise<HertaResponse> {
         const hertaResponse = await this.hertaRepository.delete(clientUserId)
 
         return hertaResponse

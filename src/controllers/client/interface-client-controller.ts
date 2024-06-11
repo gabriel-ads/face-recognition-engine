@@ -31,4 +31,5 @@ export interface IClientController {
     read: (request: CustomFastifyClientRequest, reply: FastifyReply) => object
     update: (request: CustomFastifyClientRequest, reply: FastifyReply) => object
     delete: (request: CustomFastifyClientRequest, reply: FastifyReply) => object
+    notification: (request: CustomFastifyClientRequest, reply: FastifyReply) => object
 }

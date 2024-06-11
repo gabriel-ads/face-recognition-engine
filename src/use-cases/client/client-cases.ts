@@ -6,12 +6,6 @@ export class ClientCases implements IClientCases {
     constructor(private readonly clientRepository: IClientRepository
     ) { }
 
-    async checkExistence(clientUserId: number, developerId: number) {
-        const checkResponse = await this.clientRepository.checkExistence(clientUserId, developerId)
-
-        return checkResponse
-    }
-
     async create({ name, clientUserId, image, categoryId, developerId }: ICreate): Promise<Client> {
         const client = new Client({ name, clientUserId, image, categoryId, developerId })
 
@@ -26,7 +20,7 @@ export class ClientCases implements IClientCases {
         return clientResponse
     }
 
-    async update({ clientUserId, name, image, categoryId, developerId }: IUpdate): Promise<Client> {
+    async update({ clientUserId, name, image, categoryId, developerId }: IUpdate): Promise<Client | string> {
         const client = new Client({ clientUserId, name, image, categoryId, developerId })
 
         const clientResponse = await this.clientRepository.update(client)
@@ -38,5 +32,21 @@ export class ClientCases implements IClientCases {
         const clientResponse = await this.clientRepository.delete(clientUserId, developerId)
 
         return clientResponse
+    }
+
+    async checkExistence(clientUserId: number, developerId: number) {
+        const checkResponse = await this.clientRepository.checkExistence(clientUserId, developerId)
+
+        return checkResponse
+    }
+
+    async notification(clientUserId: number, developerId: number) {
+        const client = await this.checkExistence(clientUserId, developerId)
+
+        if (client) {
+            return client as Client
+        } else {
+            return 'Cliente não encontrado.'
+        }
     }
 }

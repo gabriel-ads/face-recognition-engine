@@ -5,14 +5,14 @@ export class Odoo {
         base64: string
         url: string
     }
-    categoryId: number
+    category: 'Users' | 'Recepcionista' | 'Corretor' | 'Vip'
 
     constructor(props: Odoo) {
-        const { name, clientUserId, image, categoryId } = props
+        const { name, clientUserId, image, category } = props
 
         this.name = name
         this.clientUserId = clientUserId
         this.image = image
-        this.categoryId = categoryId
+        this.category = category
     }
 }

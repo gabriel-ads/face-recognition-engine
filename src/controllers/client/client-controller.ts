@@ -1,10 +1,10 @@
 import { ClientCases } from "src/use-cases/client/client-cases";
 import { CustomFastifyClientRequest, IClientController, } from "./interface-client-controller";
 import { FastifyReply } from "fastify";
-import { HertaRepository } from "src/repositories/herta/external/herta-repository";
+import { hertaFactory } from "src/factories/herta/herta-factory";
+import { Client } from "src/entities/client";
 
 export class ClientController implements IClientController {
-    hertaRepository = new HertaRepository()
     constructor(private readonly clientCases: ClientCases) { }
 
     async create(request: CustomFastifyClientRequest, reply: FastifyReply) {
@@ -20,7 +20,7 @@ export class ClientController implements IClientController {
             })
             if (client) {
                 const { name, clientUserId, image, categoryId } = client
-                await this.hertaRepository.create({ name, clientUserId, image, categoryId })
+                await hertaFactory().create({ name, clientUserId, image, categoryId })
 
                 return reply.send(client)
             }
@@ -44,9 +44,9 @@ export class ClientController implements IClientController {
             clientUserId, name, image, categoryId, developerId
         })
         if (client) {
-            const { name, clientUserId, image, categoryId } = client
+            const { name, clientUserId, image, categoryId } = client as Client
 
-            await this.hertaRepository.update({ name, clientUserId, image, categoryId })
+            await hertaFactory().update({ name, clientUserId, image, categoryId })
 
             return reply.send(client)
         }
@@ -60,10 +60,24 @@ export class ClientController implements IClientController {
         const client = await this.clientCases.delete(clientUserId, developerId)
 
         if (client) {
-            await this.hertaRepository.delete(clientUserId)
+            await hertaFactory().delete(clientUserId)
 
             return reply.send(client)
         }
 
+    }
+
+    async notification(request: CustomFastifyClientRequest, reply: FastifyReply) {
+        const { clientUserId } = request.body
+        const { id: developerId } = request.developer
+        const client = await this.clientCases.notification(clientUserId, developerId)
+
+        if (typeof client !== "string") {
+            const { } = client
+
+            return client
+        } else {
+            return reply.send(client)
+        }
     }
 }
