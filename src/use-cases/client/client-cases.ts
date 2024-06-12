@@ -20,8 +20,8 @@ export class ClientCases implements IClientCases {
         return clientResponse
     }
 
-    async update({ name, image, categoryId, developerId }: IUpdate): Promise<Client | string> {
-        const client = new Client({ name, image, categoryId, developerId })
+    async update({ name, clientUserId, image, categoryId, developerId }: IUpdate): Promise<Client | string> {
+        const client = new Client({ name, clientUserId, image, categoryId, developerId })
 
         const clientResponse = await this.clientRepository.update(client)
 
