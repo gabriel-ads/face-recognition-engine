@@ -2,7 +2,7 @@ export class Developer {
     id?: number
     createdAt?: Date
     updatedAt?: Date
-    name?: string
+    name: string
     username?: string
     password?: string
     token?: string
@@ -29,6 +29,10 @@ export class Developer {
             }
         } else {
             throw new Error('Username cannot be empty')
+        }
+
+        if (!name) {
+            throw new Error('Name cannot be empty')
         }
 
 

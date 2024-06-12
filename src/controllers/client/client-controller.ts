@@ -43,7 +43,7 @@ export class ClientController implements IClientController {
         const { id: developerId } = request.developer
 
         const client = await this.clientCases.update({
-            clientUserId, name, image, categoryId, developerId
+            name, image, categoryId, developerId
         })
         if (client) {
             const { name, clientUserId, image, categoryId } = client as Client

@@ -25,7 +25,7 @@ export class DeveloperController implements IDeveloperController {
 
             const { id } = developer
             const developerWithToken = await this.developerCases.update({
-                id, username, token
+                id, name, username, token
             })
 
             return reply.send(developerWithToken)

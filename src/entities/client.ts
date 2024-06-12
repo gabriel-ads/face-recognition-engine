@@ -3,7 +3,7 @@ export class Client {
     createdAt?: Date
     updatedAt?: Date
     name: string
-    clientUserId: number
+    clientUserId?: number
     image?: {
         base64: string
         url: string
@@ -13,6 +13,10 @@ export class Client {
 
     constructor(props: Client) {
         const { id, name, image, clientUserId, categoryId, developerId } = props
+
+        if (!name) {
+            throw new Error('Name cannot be empty')
+        }
 
         this.id = id
         this.name = name
