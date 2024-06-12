@@ -2,7 +2,9 @@ import { ClientCases } from "src/use-cases/client/client-cases";
 import { CustomFastifyClientRequest, IClientController, } from "./interface-client-controller";
 import { FastifyReply } from "fastify";
 import { hertaFactory } from "src/factories/herta/herta-factory";
+import { odooFactory } from "src/factories/odoo/odoo-factory"
 import { Client } from "src/entities/client";
+import { getCategoryValue } from "src/utils/categoryMaping";
 
 export class ClientController implements IClientController {
     constructor(private readonly clientCases: ClientCases) { }
@@ -73,9 +75,12 @@ export class ClientController implements IClientController {
         const client = await this.clientCases.notification(clientUserId, developerId)
 
         if (typeof client !== "string") {
-            const { } = client
+            const { name, clientUserId, image, categoryId } = client
+            const odooResponse = await odooFactory().notify({
+                name, clientUserId, image: image?.base64 as string, category: getCategoryValue(categoryId)
+            })
 
-            return client
+            return odooResponse
         } else {
             return reply.send(client)
         }

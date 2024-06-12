@@ -1,4 +1,4 @@
-export class Odoo {
+export class Herta {
     name: string
     clientUserId?: number
     image?: {
@@ -7,7 +7,7 @@ export class Odoo {
     }
     categoryId: number
 
-    constructor(props: Odoo) {
+    constructor(props: Herta) {
         const { name, clientUserId, image, categoryId } = props
 
         this.name = name

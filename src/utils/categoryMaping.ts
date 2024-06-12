@@ -1,9 +1,9 @@
 interface lookupMap {
-    [key: number]: string
+    [key: number]: "Recepcionista" | "Corretor" | "Vip" | "Usuário"
 }
 
 const lookup: lookupMap = {
-    1: 'Users',
+    1: 'Usuário',
     2: 'Recepcionista',
     3: 'Corretor',
     4: 'Vip'
