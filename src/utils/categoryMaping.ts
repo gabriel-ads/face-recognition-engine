@@ -3,10 +3,10 @@ interface lookupMap {
 }
 
 const lookup: lookupMap = {
-    0: 'Usuário',
-    1: 'Recepcionista',
-    2: 'Corretor',
-    3: 'Vip'
+    1: 'Usuário',
+    2: 'Recepcionista',
+    3: 'Corretor',
+    4: 'Vip'
 };
 
 export function getCategoryValue(number: number) {
