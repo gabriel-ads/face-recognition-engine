@@ -31,7 +31,7 @@ export default function registerClientRoutes(fastify: any, options: any, done: a
     fastify.get('/', { preHandler: auth }, readClients);
     fastify.put('/update/:clientUserId', { preHandler: auth }, updateClients)
     fastify.delete('/delete/:clientUserId', { preHandler: auth }, deleteClients)
-    fastify.post('/notify', { preHandler: auth }, notifyClients)
+    fastify.post('/notify', notifyClients)
 
     done();
 }

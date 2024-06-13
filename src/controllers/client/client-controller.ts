@@ -24,8 +24,8 @@ export class ClientController implements IClientController {
                 const { name, clientUserId, image, categoryId } = client
                 await hertaFactory().create({ name, clientUserId, image, categoryId })
 
-                return reply.send(client)
             }
+            return reply.send(client)
         }
     }
 
@@ -42,19 +42,16 @@ export class ClientController implements IClientController {
         const { name, image, categoryId } = request.body
         const { id: developerId } = request.developer
 
-        console.log(clientUserId)
-        console.log({ name, image, categoryId })
-
         const client = await this.clientCases.update({
             name, clientUserId, image, categoryId, developerId
         })
-        if (client) {
+        if (typeof client !== "string") {
             const { name, clientUserId, image, categoryId } = client as Client
 
             await hertaFactory().update({ name, clientUserId, image, categoryId })
 
-            return reply.send(client)
         }
+        return reply.send(client)
 
     }
 
@@ -64,18 +61,16 @@ export class ClientController implements IClientController {
 
         const client = await this.clientCases.delete(clientUserId, developerId)
 
-        if (client) {
+        if (typeof client !== "string") {
             await hertaFactory().delete(clientUserId)
-
-            return reply.send(client)
         }
+        return reply.send(client)
 
     }
 
     async notification(request: CustomFastifyClientRequest, reply: FastifyReply) {
         const { clientUserId } = request.body
-        const { id: developerId } = request.developer
-        const client = await this.clientCases.notification(clientUserId, developerId)
+        const client = await this.clientCases.notification(clientUserId)
 
         if (typeof client !== "string") {
             const { name, clientUserId, image, categoryId } = client

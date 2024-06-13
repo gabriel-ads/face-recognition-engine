@@ -40,8 +40,11 @@ export class HertaRepository implements IHertaRepository {
                 }
             });
 
+            console.log(hertaResponse.data)
+
             return hertaResponse.data as HertaResponse
         } catch (error) {
+            // console.log(error)
             throw new Error(error as string)
         }
     }

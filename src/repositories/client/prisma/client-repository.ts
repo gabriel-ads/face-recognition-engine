@@ -5,7 +5,7 @@ import { ICreate, IUpdate } from "src/use-cases/client/interface-client-cases";
 
 export class ClientRepository implements IClientRepository {
 
-    async checkExistence(clientUserId: number, developerId: number) {
+    async checkExistence(clientUserId: number, developerId?: number) {
         try {
             const client = await prisma.clients.findFirst({
                 where: {
@@ -22,6 +22,7 @@ export class ClientRepository implements IClientRepository {
                 return false
             }
         } catch (error) {
+            console.log({ error })
             throw new Error(error as string)
         }
     }
@@ -69,6 +70,7 @@ export class ClientRepository implements IClientRepository {
 
                 return client as Client
             } catch (error) {
+                console.log(error)
                 throw new Error(error as string)
             }
         } else {

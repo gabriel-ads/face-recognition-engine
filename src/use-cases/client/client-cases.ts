@@ -24,6 +24,7 @@ export class ClientCases implements IClientCases {
         const client = new Client({ name, clientUserId, image, categoryId, developerId })
 
         const clientResponse = await this.clientRepository.update(client)
+        console.log('log no case', clientResponse)
 
         return clientResponse
     }
@@ -34,14 +35,14 @@ export class ClientCases implements IClientCases {
         return clientResponse
     }
 
-    async checkExistence(clientUserId: number, developerId: number) {
+    async checkExistence(clientUserId: number, developerId?: number) {
         const checkResponse = await this.clientRepository.checkExistence(clientUserId, developerId)
 
         return checkResponse
     }
 
-    async notification(clientUserId: number, developerId: number) {
-        const client = await this.checkExistence(clientUserId, developerId)
+    async notification(clientUserId: number) {
+        const client = await this.checkExistence(clientUserId)
 
         if (client) {
             return client as Client

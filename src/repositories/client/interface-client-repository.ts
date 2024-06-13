@@ -7,5 +7,5 @@ export interface IClientRepository {
     update: (client: IUpdate) => Promise<Client | string>
     delete: (id: number, developerId: number) => Promise<string>
 
-    checkExistence: (clientUserId: number, developerId: number) => Promise<Client | boolean>
+    checkExistence: (clientUserId: number, developerId?: number) => Promise<Client | boolean>
 }
