@@ -18,6 +18,22 @@ export class Client {
             throw new Error('Name cannot be empty')
         }
 
+        if (!clientUserId) {
+            throw new Error('ClientUserId cannot be empty')
+        }
+
+        if (!image?.base64) {
+            throw new Error('Base64 cannot be empty')
+        }
+
+        if (!categoryId) {
+            throw new Error('CategoryId cannot be empty')
+        }
+
+        if (!image) {
+            throw new Error('Image cannot be empty')
+        }
+
         this.id = id
         this.name = name
         this.image = image

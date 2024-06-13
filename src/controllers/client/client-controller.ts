@@ -43,15 +43,39 @@ export class ClientController implements IClientController {
         const { name, image, categoryId } = request.body
         const { id: developerId } = request.developer
 
-        const client = await this.clientCases.update({
-            name, clientUserId, image, categoryId, developerId
-        })
-        if (typeof client !== "string") {
-            const { name, clientUserId, image, categoryId, developerId } = client as Client
+        const client = await this.clientCases.checkExistence(clientUserId, developerId as number)
+        // console.log({ client })
 
-            await hertaFactory().update({ name, clientUserId, image, categoryId, developerId: developerId as number })
+        if (client) {
+            const updateClientResponse = await this.clientCases.update({
+                id: client.id,
+                name: name ? name : client.name,
+                clientUserId: clientUserId ? clientUserId : client.clientUserId,
+                image: {
+                    base64: image?.base64 ? image.base64 : client.image.base64,
+                    url: image?.url ? image.url : client.image.url
+                },
+                categoryId: categoryId ? categoryId : client.categoryId,
+                developerId: developerId ? developerId : client.developerId
+            })
+
+            await hertaFactory().update({
+                name: name ? name : client.name,
+                clientUserId: clientUserId ? clientUserId : client.clientUserId,
+                image: {
+                    base64: image?.base64 ? image.base64 : client.image.base64,
+                    url: image?.url ? image.url : client.image.url
+                },
+                categoryId: categoryId ? categoryId : client.categoryId,
+                developerId: developerId ? developerId : client.developerId
+            })
+
+            return reply.send(updateClientResponse)
+        } else {
+            reply.send('Usuário não encontrado.')
         }
-        return reply.send(client)
+
+
     }
 
     async delete(request: CustomFastifyClientRequest, reply: FastifyReply) {

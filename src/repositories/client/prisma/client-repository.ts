@@ -17,8 +17,7 @@ export class ClientRepository implements IClientRepository {
             })
             if (client) {
                 return client as Client
-            }
-            else {
+            } else {
                 return false
             }
         } catch (error) {
@@ -49,33 +48,27 @@ export class ClientRepository implements IClientRepository {
         }
     }
 
-    async update({ clientUserId, name, image, categoryId, developerId }: IUpdate): Promise<Client | string> {
-        const client = await this.checkExistence(clientUserId, developerId as number)
+    async update({ id, clientUserId, name, image, categoryId, developerId }: IUpdate): Promise<Client | string> {
+        try {
+            const client = await prisma.clients.update({
+                where: {
+                    id,
+                    AND: [
+                        { developerId },
+                        { clientUserId }
+                    ]
+                },
+                data: {
+                    name, image, categoryId
+                }
+            })
 
-        if (client) {
-            const { id } = client
-            try {
-                const client = await prisma.clients.update({
-                    where: {
-                        id,
-                        AND: [
-                            { developerId },
-                            { clientUserId }
-                        ]
-                    },
-                    data: {
-                        name, image, categoryId
-                    }
-                })
-
-                return client as Client
-            } catch (error) {
-                console.log(error)
-                throw new Error(error as string)
-            }
-        } else {
-            return 'Usuário não encontrado'
+            return client as Client
+        } catch (error) {
+            console.log(error)
+            throw new Error(error as string)
         }
+
     }
 
     async delete(clientUserId: string, developerId: number): Promise<string> {
