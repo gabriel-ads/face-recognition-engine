@@ -3,7 +3,7 @@ export class Client {
     createdAt?: Date
     updatedAt?: Date
     name: string
-    clientUserId?: number
+    clientUserId?: string
     image?: {
         base64: string
         url: string

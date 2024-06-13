@@ -21,7 +21,7 @@ export class HertaCases implements IHertaCases {
         return hertaResponse
     }
 
-    async delete(clientUserId: number): Promise<HertaResponse> {
+    async delete(clientUserId: string): Promise<HertaResponse> {
         const hertaResponse = await this.hertaRepository.delete(clientUserId)
 
         return hertaResponse

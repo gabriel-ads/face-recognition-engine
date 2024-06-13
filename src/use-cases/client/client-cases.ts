@@ -28,19 +28,19 @@ export class ClientCases implements IClientCases {
         return clientResponse
     }
 
-    async delete(clientUserId: number, developerId: number): Promise<string> {
+    async delete(clientUserId: string, developerId: number): Promise<string> {
         const clientResponse = await this.clientRepository.delete(clientUserId, developerId)
 
         return clientResponse
     }
 
-    async checkExistence(clientUserId: number, developerId?: number) {
+    async checkExistence(clientUserId: string, developerId?: number) {
         const checkResponse = await this.clientRepository.checkExistence(clientUserId, developerId)
 
         return checkResponse
     }
 
-    async notification(clientUserId: number) {
+    async notification(clientUserId: string) {
         const client = await this.checkExistence(clientUserId)
 
         if (client) {

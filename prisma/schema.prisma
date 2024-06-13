@@ -15,7 +15,7 @@ datasource db {
 
 model clients {
   id          Int       @id @default(autoincrement())
-  clientUserId Int
+  clientUserId String    @db.VarChar(255)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   name        String    @db.VarChar(255)

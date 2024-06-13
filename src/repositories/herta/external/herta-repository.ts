@@ -44,12 +44,12 @@ export class HertaRepository implements IHertaRepository {
 
             return hertaResponse.data as HertaResponse
         } catch (error) {
-            // console.log(error)
+            console.log(error)
             throw new Error(error as string)
         }
     }
 
-    async delete(clientUserId: number): Promise<HertaResponse> {
+    async delete(clientUserId: string): Promise<HertaResponse> {
         try {
             const hertaResponse = await axios({
                 method: 'delete',

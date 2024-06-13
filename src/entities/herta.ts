@@ -1,6 +1,6 @@
 export class Herta {
     name: string
-    clientUserId?: number
+    clientUserId?: string
     image?: {
         base64: string
         url: string

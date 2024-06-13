@@ -5,7 +5,7 @@ import { ICreate, IUpdate } from "src/use-cases/client/interface-client-cases";
 
 export class ClientRepository implements IClientRepository {
 
-    async checkExistence(clientUserId: number, developerId?: number) {
+    async checkExistence(clientUserId: string, developerId?: number) {
         try {
             const client = await prisma.clients.findFirst({
                 where: {
@@ -78,7 +78,7 @@ export class ClientRepository implements IClientRepository {
         }
     }
 
-    async delete(clientUserId: number, developerId: number): Promise<string> {
+    async delete(clientUserId: string, developerId: number): Promise<string> {
         const client = await this.checkExistence(clientUserId, developerId)
         if (client) {
             const { id } = client

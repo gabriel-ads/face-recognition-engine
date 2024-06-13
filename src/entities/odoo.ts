@@ -1,6 +1,6 @@
 export class Odoo {
     name: string
-    clientUserId?: number
+    clientUserId?: string
     image: string
     category: 'Usuário' | 'Recepcionista' | 'Corretor' | 'Vip'
 

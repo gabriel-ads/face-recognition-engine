@@ -12,17 +12,18 @@ export class ClientController implements IClientController {
     async create(request: CustomFastifyClientRequest, reply: FastifyReply) {
         const { name, clientUserId, image, categoryId } = request.body
         const { id: developerId } = request.developer
-        const alreadyExist = await this.clientCases.checkExistence(clientUserId, developerId)
+        const alreadyExist = await this.clientCases.checkExistence(clientUserId.toString(), developerId)
 
         if (alreadyExist) {
             return reply.status(400).send('ClientUserId already exist for this developer.')
         } else {
+
             const client = await this.clientCases.create({
-                name, clientUserId, image, categoryId, developerId
+                name, clientUserId: clientUserId.toString(), image, categoryId, developerId
             })
-            if (client) {
+            if (typeof client !== "string") {
                 const { name, clientUserId, image, categoryId } = client
-                await hertaFactory().create({ name, clientUserId, image, categoryId })
+                await hertaFactory().create({ name, clientUserId: clientUserId.toString(), image, categoryId })
 
                 return reply.send(client)
             }
@@ -38,7 +39,7 @@ export class ClientController implements IClientController {
     }
 
     async update(request: CustomFastifyClientRequest, reply: FastifyReply) {
-        const clientUserId = parseInt(request.params.clientUserId)
+        const clientUserId = request.params.clientUserId
         const { name, image, categoryId } = request.body
         const { id: developerId } = request.developer
 
@@ -54,12 +55,12 @@ export class ClientController implements IClientController {
     }
 
     async delete(request: CustomFastifyClientRequest, reply: FastifyReply) {
-        const clientUserId = parseInt(request.params.clientUserId)
+        const clientUserId = request.params.clientUserId
         const { id: developerId } = request.developer
 
         const client = await this.clientCases.delete(clientUserId, developerId)
 
-        if (typeof client !== "string") {
+        if (client) {
             await hertaFactory().delete(clientUserId)
         }
         return reply.send(client)
