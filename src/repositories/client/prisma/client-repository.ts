@@ -71,27 +71,21 @@ export class ClientRepository implements IClientRepository {
 
     }
 
-    async delete(clientUserId: string, developerId: number): Promise<string> {
-        const client = await this.checkExistence(clientUserId, developerId)
-        if (client) {
-            const { id } = client
-            try {
-                await prisma.clients.delete({
-                    where: {
-                        id,
-                        AND: [
-                            { clientUserId },
-                            { developerId }
-                        ]
-                    }
-                })
+    async delete(id: number, clientUserId: string, developerId: number): Promise<string> {
+        try {
+            await prisma.clients.delete({
+                where: {
+                    id,
+                    AND: [
+                        { clientUserId },
+                        { developerId }
+                    ]
+                }
+            })
 
-                return 'Usuário deletado com sucesso'
-            } catch (error) {
-                throw new Error(error as string)
-            }
-        } else {
-            return 'Usuário não encontrado'
+            return 'Usuário deletado com sucesso'
+        } catch (error) {
+            throw new Error(error as string)
         }
     }
 }

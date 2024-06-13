@@ -44,7 +44,6 @@ export class ClientController implements IClientController {
         const { id: developerId } = request.developer
 
         const client = await this.clientCases.checkExistence(clientUserId, developerId as number)
-        // console.log({ client })
 
         if (client) {
             const updateClientResponse = await this.clientCases.update({
@@ -82,12 +81,16 @@ export class ClientController implements IClientController {
         const clientUserId = request.params.clientUserId
         const { id: developerId } = request.developer
 
-        const client = await this.clientCases.delete(clientUserId, developerId)
-
+        const client = await this.clientCases.checkExistence(clientUserId, developerId)
         if (client) {
+            const deleteClientResponse = await this.clientCases.delete(client.id, clientUserId, developerId)
+
             await hertaFactory().delete(clientUserId)
+
+            return reply.send(deleteClientResponse)
+        } else {
+            return reply.send('Usuário não encontrado.')
         }
-        return reply.send(client)
     }
 
     async notification(request: CustomFastifyClientRequest, reply: FastifyReply) {

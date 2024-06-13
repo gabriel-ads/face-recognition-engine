@@ -29,8 +29,8 @@ export class ClientCases implements IClientCases {
         return clientResponse
     }
 
-    async delete(clientUserId: string, developerId: number): Promise<string> {
-        const clientResponse = await this.clientRepository.delete(clientUserId, developerId)
+    async delete(id: number, clientUserId: string, developerId: number): Promise<string> {
+        const clientResponse = await this.clientRepository.delete(id, clientUserId, developerId)
 
         return clientResponse
     }
