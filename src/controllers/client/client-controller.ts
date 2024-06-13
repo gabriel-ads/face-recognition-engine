@@ -22,8 +22,8 @@ export class ClientController implements IClientController {
                 name, clientUserId: clientUserId.toString(), image, categoryId, developerId
             })
             if (typeof client !== "string") {
-                const { name, clientUserId, image, categoryId } = client
-                await hertaFactory().create({ name, clientUserId: clientUserId.toString(), image, categoryId })
+                const { name, clientUserId, image, categoryId, developerId } = client
+                await hertaFactory().create({ name, clientUserId: clientUserId.toString(), image, categoryId, developerId: developerId as number })
 
                 return reply.send(client)
             }
@@ -47,9 +47,9 @@ export class ClientController implements IClientController {
             name, clientUserId, image, categoryId, developerId
         })
         if (typeof client !== "string") {
-            const { name, clientUserId, image, categoryId } = client as Client
+            const { name, clientUserId, image, categoryId, developerId } = client as Client
 
-            await hertaFactory().update({ name, clientUserId, image, categoryId })
+            await hertaFactory().update({ name, clientUserId, image, categoryId, developerId: developerId as number })
         }
         return reply.send(client)
     }
@@ -67,13 +67,16 @@ export class ClientController implements IClientController {
     }
 
     async notification(request: CustomFastifyClientRequest, reply: FastifyReply) {
-        const { clientUserId } = request.body
-        const client = await this.clientCases.notification(clientUserId)
+        const { clientUserId, developerId } = request.body
+        const client = await this.clientCases.notification(clientUserId.toString(), developerId)
 
         if (typeof client !== "string") {
             const { name, clientUserId, image, categoryId } = client
             const odooResponse = await odooFactory().notify({
-                name, clientUserId, image: image?.base64 as string, category: getCategoryValue(categoryId)
+                name,
+                clientUserId,
+                image: image?.base64 as string,
+                category: getCategoryValue(categoryId)
             })
 
             return odooResponse

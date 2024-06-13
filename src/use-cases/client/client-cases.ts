@@ -34,14 +34,14 @@ export class ClientCases implements IClientCases {
         return clientResponse
     }
 
-    async checkExistence(clientUserId: string, developerId?: number) {
+    async checkExistence(clientUserId: string, developerId: number) {
         const checkResponse = await this.clientRepository.checkExistence(clientUserId, developerId)
 
         return checkResponse
     }
 
-    async notification(clientUserId: string) {
-        const client = await this.checkExistence(clientUserId)
+    async notification(clientUserId: string, developerId: number) {
+        const client = await this.checkExistence(clientUserId, developerId)
 
         if (client) {
             return client as Client

@@ -5,16 +5,16 @@ import { IHertaRepository } from "src/repositories/herta/interface-herta-reposit
 export class HertaCases implements IHertaCases {
     constructor(private readonly hertaRepository: IHertaRepository) { }
 
-    async create({ name, clientUserId, image, categoryId }: ICreate): Promise<HertaResponse> {
-        const herta = new Herta({ name, clientUserId, image, categoryId })
+    async create({ name, clientUserId, image, categoryId, developerId }: ICreate): Promise<HertaResponse> {
+        const herta = new Herta({ name, clientUserId, image, categoryId, developerId })
 
         const hertaResponse = await this.hertaRepository.create(herta)
 
         return hertaResponse
     }
 
-    async update({ name, clientUserId, image, categoryId }: IUpdate): Promise<HertaResponse> {
-        const herta = new Herta({ name, clientUserId, image, categoryId })
+    async update({ name, clientUserId, image, categoryId, developerId }: IUpdate): Promise<HertaResponse> {
+        const herta = new Herta({ name, clientUserId, image, categoryId, developerId })
 
         const hertaResponse = await this.hertaRepository.update(herta)
 

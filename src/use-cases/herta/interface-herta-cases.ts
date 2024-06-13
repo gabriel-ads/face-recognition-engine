@@ -1,6 +1,6 @@
 import { type Herta } from '../../entities/herta'
 
-export type ICreate = Pick<Herta, 'name' | 'clientUserId' | 'image' | 'categoryId'>
+export type ICreate = Pick<Herta, 'name' | 'clientUserId' | 'image' | 'categoryId' | 'developerId'>
 export type IUpdate = Pick<Herta, 'clientUserId' | 'name' | 'image' | 'categoryId'>
 
 export interface HertaResponse {

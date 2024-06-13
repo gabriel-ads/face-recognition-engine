@@ -6,13 +6,15 @@ export class Herta {
         url: string
     }
     categoryId: number
+    developerId: number
 
     constructor(props: Herta) {
-        const { name, clientUserId, image, categoryId } = props
+        const { name, clientUserId, image, categoryId, developerId } = props
 
         this.name = name
         this.clientUserId = clientUserId
         this.image = image
         this.categoryId = categoryId
+        this.developerId = developerId
     }
 }

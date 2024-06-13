@@ -7,7 +7,7 @@ import { getCategoryValue } from "src/utils/categoryMaping";
 
 export class HertaRepository implements IHertaRepository {
 
-    async create({ name, clientUserId, image, categoryId }: ICreate): Promise<HertaResponse> {
+    async create({ name, clientUserId, image, categoryId, developerId }: ICreate): Promise<HertaResponse> {
         try {
             const hertaResponse = await axios({
                 method: 'post',
@@ -16,6 +16,7 @@ export class HertaRepository implements IHertaRepository {
                     user_id: clientUserId,
                     user_fname: name,
                     user_group: getCategoryValue(categoryId),
+                    user_comments: developerId,
                     subject_photo: image?.base64
                 }
             });
@@ -27,7 +28,7 @@ export class HertaRepository implements IHertaRepository {
         }
     }
 
-    async update({ clientUserId, name, image, categoryId }: IUpdate): Promise<HertaResponse> {
+    async update({ clientUserId, name, image, categoryId, developerId }: IUpdate): Promise<HertaResponse> {
         try {
             const hertaResponse = await axios({
                 method: 'put',
@@ -36,11 +37,10 @@ export class HertaRepository implements IHertaRepository {
                     user_id: clientUserId,
                     user_fname: name,
                     user_group: getCategoryValue(categoryId),
+                    user_comments: developerId,
                     subject_photo: image?.base64
                 }
             });
-
-            console.log(hertaResponse.data)
 
             return hertaResponse.data as HertaResponse
         } catch (error) {
