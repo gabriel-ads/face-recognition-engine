@@ -68,7 +68,7 @@ export class ClientController implements IClientController {
 
     async notification(request: CustomFastifyClientRequest, reply: FastifyReply) {
         const { clientUserId, developerId } = request.body
-        const client = await this.clientCases.notification(clientUserId.toString(), developerId)
+        const client = await this.clientCases.notification(clientUserId.toString(), parseInt(developerId))
 
         if (typeof client !== "string") {
             const { name, clientUserId, image, categoryId } = client

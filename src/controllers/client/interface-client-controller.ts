@@ -4,7 +4,7 @@ export interface ICustomBodyType {
     id: number
     name: string
     clientUserId: number
-    developerId: number
+    developerId: string
     image: {
         base64: string
         url: string
