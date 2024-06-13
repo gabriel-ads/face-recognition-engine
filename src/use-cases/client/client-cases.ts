@@ -24,7 +24,6 @@ export class ClientCases implements IClientCases {
         const client = new Client({ name, clientUserId, image, categoryId, developerId })
 
         const clientResponse = await this.clientRepository.update(client)
-        console.log('log no case', clientResponse)
 
         return clientResponse
     }

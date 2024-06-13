@@ -9,7 +9,7 @@ export class OdooRepository implements IOdooRepository {
         try {
             const odooResponse = await axios({
                 method: 'post',
-                url: `${process.env.HERTA_URL}:8001/notify/`,
+                url: `${process.env.HERTA_URL}/notify/`,
                 data: {
                     user_id: clientUserId,
                     user_name: name,

@@ -24,8 +24,8 @@ export class ClientController implements IClientController {
                 const { name, clientUserId, image, categoryId } = client
                 await hertaFactory().create({ name, clientUserId, image, categoryId })
 
+                return reply.send(client)
             }
-            return reply.send(client)
         }
     }
 
@@ -49,10 +49,8 @@ export class ClientController implements IClientController {
             const { name, clientUserId, image, categoryId } = client as Client
 
             await hertaFactory().update({ name, clientUserId, image, categoryId })
-
         }
         return reply.send(client)
-
     }
 
     async delete(request: CustomFastifyClientRequest, reply: FastifyReply) {
@@ -65,7 +63,6 @@ export class ClientController implements IClientController {
             await hertaFactory().delete(clientUserId)
         }
         return reply.send(client)
-
     }
 
     async notification(request: CustomFastifyClientRequest, reply: FastifyReply) {
