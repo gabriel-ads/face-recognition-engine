@@ -21,7 +21,7 @@ export class ClientRepository implements IClientRepository {
                 return false
             }
         } catch (error) {
-            console.log({ error })
+            console.log(error)
             throw new Error(error as string)
         }
     }

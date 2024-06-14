@@ -3,8 +3,9 @@ import { CustomFastifyClientRequest, IClientController, } from "./interface-clie
 import { FastifyReply } from "fastify";
 import { hertaFactory } from "src/factories/herta/herta-factory";
 import { odooFactory } from "src/factories/odoo/odoo-factory"
-import { Client } from "src/entities/client";
 import { getCategoryValue } from "src/utils/categoryMaping";
+import { patrianiFactory } from "src/factories/patriani/patriani-factory";
+import { DeveloperRepository } from "src/repositories/developer/prisma/developer-repository";
 
 export class ClientController implements IClientController {
     constructor(private readonly clientCases: ClientCases) { }
@@ -95,18 +96,35 @@ export class ClientController implements IClientController {
 
     async notification(request: CustomFastifyClientRequest, reply: FastifyReply) {
         const { clientUserId, developerId } = request.body
-        const client = await this.clientCases.notification(clientUserId.toString(), parseInt(developerId))
+        const developerRepository = new DeveloperRepository()
+        const developer = await developerRepository.checkExistence({ id: developerId })
 
-        if (typeof client !== "string") {
+        const client = await this.clientCases.notification(clientUserId.toString(), developerId)
+
+        if (typeof client !== "string" && developer) {
             const { name, clientUserId, image, categoryId } = client
-            const odooResponse = await odooFactory().notify({
-                name,
-                clientUserId,
-                image: image?.base64 as string,
-                category: getCategoryValue(categoryId)
-            })
 
-            return odooResponse
+            if (developer.name === 'Odoo') {
+                const odooResponse = await odooFactory().notify({
+                    name,
+                    clientUserId,
+                    image: image?.base64 as string,
+                    category: getCategoryValue(categoryId)
+                })
+
+                return odooResponse
+            }
+
+            if (developer.name === 'Patriani') {
+                const patrianiResponse = await patrianiFactory().notify({
+                    id: clientUserId as string,
+                    name: name,
+                    date: new Date().toISOString(),
+                    message: `Lead ${name}(${getCategoryValue(categoryId)}) chegou ao stand.`
+                })
+
+                return patrianiResponse
+            }
         } else {
             return reply.send(client)
         }

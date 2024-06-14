@@ -1,15 +1,18 @@
 import { Developer } from "src/entities/developer";
 import { IDeveloperRepository } from "../interface-developer-repository";
 import { prisma } from "src/database";
-import { ICreate, IUpdate } from "src/use-cases/developer/interface-developer-cases";
+import { ICheckExistence, ICreate, IUpdate } from "src/use-cases/developer/interface-developer-cases";
 
 export class DeveloperRepository implements IDeveloperRepository {
 
-    async checkExistence(username: string) {
+    async checkExistence({ id, username }: ICheckExistence) {
         try {
             const developer = await prisma.developers.findFirst({
                 where: {
-                    username
+                    username,
+                    OR: [
+                        { id },
+                    ]
                 }
             })
             if (developer) {

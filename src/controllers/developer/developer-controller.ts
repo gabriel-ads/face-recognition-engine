@@ -10,7 +10,7 @@ export class DeveloperController implements IDeveloperController {
     async create(request: CustomFastifyDeveloperRequest, reply: FastifyReply) {
         request.body.password = bcrypt.hashSync(request.body.password, 10);
         const { name, username, password } = request.body
-        const alreadyExist = await this.developerCases.checkExistence(username)
+        const alreadyExist = await this.developerCases.checkExistence({ username })
 
         if (alreadyExist) {
             return reply.status(400).send('User already exist.')
@@ -43,7 +43,7 @@ export class DeveloperController implements IDeveloperController {
         const { name, username, password } = request.body
         const { token } = request.developer
 
-        const alreadyExist = await this.developerCases.checkExistence(username)
+        const alreadyExist = await this.developerCases.checkExistence({ username })
 
         if (alreadyExist) {
             return reply.status(400).send('User already exist.')

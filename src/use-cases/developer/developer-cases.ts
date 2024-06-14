@@ -1,13 +1,13 @@
 import { Developer } from "src/entities/developer";
-import { ICreate, IUpdate, IDeveloperCases } from "./interface-developer-cases";
+import { ICreate, IUpdate, IDeveloperCases, ICheckExistence } from "./interface-developer-cases";
 import { IDeveloperRepository } from "src/repositories/developer/interface-developer-repository";
 
 export class DeveloperCases implements IDeveloperCases {
     constructor(private readonly DeveloperRepository: IDeveloperRepository
     ) { }
 
-    async checkExistence(username: string) {
-        const checkResponse = await this.DeveloperRepository.checkExistence(username)
+    async checkExistence({ id, username }: ICheckExistence) {
+        const checkResponse = await this.DeveloperRepository.checkExistence({ id, username })
 
         return checkResponse
     }
