@@ -9,12 +9,15 @@ export class PatrianiRepository implements IPatrianiRepository {
         try {
             const patrianiResponse = await axios({
                 method: 'post',
-                url: `${process.env.PATRIANI_URL}/notify/`,
+                url: `${process.env.PATRIANI_URL}`,
                 data: {
                     id: id,
                     name: name,
                     date: date,
                     message: message
+                },
+                headers: {
+                    "Authorization": process.env.PATRIANI_TOKEN
                 }
             });
 

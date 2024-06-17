@@ -7,5 +7,5 @@ export interface IDeveloperRepository {
     update: (developer: IUpdate) => Promise<Developer>
     delete: (id: number) => Promise<string>
 
-    checkExistence: ({ id, username }: ICheckExistence) => Promise<boolean>
+    checkExistence: ({ id, username }: ICheckExistence) => Promise<Developer | boolean>
 }

@@ -16,7 +16,7 @@ export class DeveloperRepository implements IDeveloperRepository {
                 }
             })
             if (developer) {
-                return true
+                return developer as Developer
             }
             else {
                 return false
