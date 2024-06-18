@@ -3,6 +3,8 @@
 # Navegue até o diretório do seu projeto
 cd face-recognition-engine/
 
+git pull origin main
+
 ## Instalar dependências clean install (ci)
 npm ci
 
