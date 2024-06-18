@@ -9,7 +9,8 @@ pipelines:
             - node
           script:
             - apt-get update && apt-get install -y ssh
-            - ssh -o StrictHostKeyChecking=no ubuntu@100.26.208.201 'bash < deploy_script.sh'
+            - chmod 600 id_rsa
+            - ssh -i "$SSH_PRIVATE_KEY" -o StrictHostKeyChecking=no ubuntu@100.26.208.201 'bash -s' < deploy_script.sh
 
 definitions:
   caches:
