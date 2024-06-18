@@ -3,7 +3,7 @@
 # Navegue até o diretório do seu projeto
 cd face-recognition-engine/
 
-git pull origin main
+GIT_SSH_COMMAND="ssh -i /home/ubuntu/.ssh/id_rsa -o StrictHostKeyChecking=no" git pull
 
 ## Instalar dependências clean install (ci)
 npm ci
