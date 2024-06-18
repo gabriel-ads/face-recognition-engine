@@ -11,6 +11,8 @@ pipelines:
             - apt-get update && apt-get install -y ssh
             - echo "$SSH_PRIVATE_KEY" > id_rsa
             - chmod 600 id_rsa
+            - eval "$(ssh-agent -s)"
+            - ssh-add id_rsa
             - ssh -i id_rsa -o StrictHostKeyChecking=no ubuntu@100.26.208.201 'bash -s' < deploy_script.sh
 
 definitions:
