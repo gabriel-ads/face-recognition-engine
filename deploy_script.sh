@@ -2,11 +2,8 @@
 #
 ## Navegar até o diretório da aplicação
 cd face-recognition-engine/
-# Chave ssh
-eval "$(ssh-agent -s)"
-ssh-add /home/ubuntu/id_rsa
 ## Atualizar o repositório
-git pull https://$BITBUCKET_USERNAME:$BITBUCKET_APP_PASSWORD@bitbucket.org/smartstaff/face-recognition-engine/src/main/
+GIT_SSH_COMMAND="ssh -i /home/ubuntu/id_rsa -o StrictHostKeyChecking=no" git pull git@bitbucket.org/smartstaff/face-recognition-engine/src/main/
 #
 ## Instalar dependências clean install (ci)
 npm ci
