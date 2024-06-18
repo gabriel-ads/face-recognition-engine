@@ -11,7 +11,7 @@ pipelines:
             - apt-get update && apt-get install -y ssh
             - echo "$SSH_PRIVATE_KEY" > id_rsa
             - chmod 600 id_rsa
-            - ssh -i "$SSH_PRIVATE_KEY" -o StrictHostKeyChecking=no ubuntu@100.26.208.201 'bash -s' < deploy_script.sh
+            - ssh -i id_rsa -o StrictHostKeyChecking=no ubuntu@100.26.208.201 'bash -s' < deploy_script.sh
 
 definitions:
   caches:
