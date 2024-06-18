@@ -9,6 +9,7 @@ pipelines:
             - node
           script:
             - apt-get update && apt-get install -y ssh
+            - sudo apt install openssh-server
             # - scp -o StrictHostKeyChecking=no -r * ubuntu@100.26.208.201:/face-recognition-engine/
             - ssh -o StrictHostKeyChecking=no ubuntu@100.26.208.201 'bash -s' < deploy_script.sh
 
