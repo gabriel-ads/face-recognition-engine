@@ -34,7 +34,7 @@ export class DeveloperController implements IDeveloperController {
 
     async read(reply: FastifyReply) {
         const developer = await this.developerCases.read()
-
+        console.log('testando a pipe')
         return reply.send(developer)
     }
 
