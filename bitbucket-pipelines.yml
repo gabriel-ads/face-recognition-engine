@@ -10,14 +10,9 @@ pipelines:
           script:
             # Instalar SSH e preparar a chave privada
             - apt-get update && apt-get install -y openssh-client
-            - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-            - chmod 600 ~/.ssh/id_rsa
 
             # Configurar Git para usar SSH em vez de HTTPS
             - git config --global url."git@bitbucket.org:".insteadOf "https://bitbucket.org/"
-
-            # Copiar a chave privada para a instância EC2
-            - scp -o StrictHostKeyChecking=no ~/.ssh/id_rsa ubuntu@100.26.208.201:/home/ubuntu/.ssh/id_rsa
 
             # Executar o script de deploy na instância EC2
             - ssh -o StrictHostKeyChecking=no ubuntu@100.26.208.201 'bash -s' < deploy_script.sh
