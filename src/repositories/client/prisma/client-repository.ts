@@ -48,7 +48,7 @@ export class ClientRepository implements IClientRepository {
         }
     }
 
-    async update({ id, clientUserId, name, image, categoryId, developerId }: IUpdate): Promise<Client | string> {
+    async update({ id, clientUserId, name, image, categoryId, developerId, lastSeen }: IUpdate): Promise<Client | string> {
         try {
             const client = await prisma.clients.update({
                 where: {
@@ -59,7 +59,7 @@ export class ClientRepository implements IClientRepository {
                     ]
                 },
                 data: {
-                    name, image, categoryId
+                    name, image, categoryId, lastSeen
                 }
             })
 

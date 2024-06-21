@@ -3,14 +3,16 @@ import { CustomFastifyClientRequest, IClientController, } from "./interface-clie
 import { FastifyReply } from "fastify";
 import { hertaFactory } from "src/factories/herta/herta-factory";
 import { odooFactory } from "src/factories/odoo/odoo-factory"
-import { getCategoryValue } from "src/utils/categoryMaping";
+import { categoryIdValidation, getCategoryValue } from "src/utils/categoryMaping";
 import { patrianiFactory } from "src/factories/patriani/patriani-factory";
 import { DeveloperRepository } from "src/repositories/developer/prisma/developer-repository";
+import { delayCheck } from "src/utils/delayCheck";
 
 export class ClientController implements IClientController {
     constructor(private readonly clientCases: ClientCases) { }
 
     async create(request: CustomFastifyClientRequest, reply: FastifyReply) {
+        request.body.categoryId = categoryIdValidation(request.body.categoryId)
         const { name, clientUserId, image, categoryId } = request.body
         const { id: developerId } = request.developer
         const alreadyExist = await this.clientCases.checkExistence(clientUserId.toString(), developerId)
@@ -18,9 +20,12 @@ export class ClientController implements IClientController {
         if (alreadyExist) {
             return reply.status(400).send('ClientUserId already exist for this developer.')
         } else {
-
             const client = await this.clientCases.create({
-                name, clientUserId: clientUserId.toString(), image, categoryId, developerId
+                name,
+                clientUserId: clientUserId.toString(),
+                image,
+                categoryId,
+                developerId
             })
             if (typeof client !== "string") {
                 const { name, clientUserId, image, categoryId, developerId } = client
@@ -36,7 +41,16 @@ export class ClientController implements IClientController {
 
         const client = await this.clientCases.read(developerId)
 
-        return reply.send(client)
+        const clientObject = client.map(({ clientUserId, name, image, categoryId }) => {
+            return {
+                id: clientUserId,
+                name,
+                image,
+                category: getCategoryValue(categoryId)
+            }
+        })
+
+        return reply.send(clientObject)
     }
 
     async update(request: CustomFastifyClientRequest, reply: FastifyReply) {
@@ -50,13 +64,13 @@ export class ClientController implements IClientController {
             const updateClientResponse = await this.clientCases.update({
                 id: client.id,
                 name: name ? name : client.name,
-                clientUserId: clientUserId ? clientUserId : client.clientUserId,
+                clientUserId,
                 image: {
                     base64: image?.base64 ? image.base64 : client.image.base64,
                     url: image?.url ? image.url : client.image.url
                 },
                 categoryId: categoryId ? categoryId : client.categoryId,
-                developerId: developerId ? developerId : client.developerId
+                developerId: developerId ? developerId : client.developerId,
             })
 
             await hertaFactory().update({
@@ -102,29 +116,58 @@ export class ClientController implements IClientController {
         const client = await this.clientCases.notification(clientUserId.toString(), developerId)
 
         if (typeof client !== "string" && developer) {
-            const { name, clientUserId, image, categoryId } = client
+            const { id, name, clientUserId, image, categoryId, lastSeen } = client
 
-            if (developer.name === 'Odoo') {
-                const odooResponse = await odooFactory().notify({
-                    name,
-                    clientUserId,
-                    image: image?.base64 as string,
-                    category: getCategoryValue(categoryId)
-                })
+            if (!lastSeen) {
+                await this.clientCases.update({ id, name, clientUserId, image, categoryId, lastSeen: new Date().toISOString() })
+                if (developer.name === 'Odoo') {
+                    const odooResponse = await odooFactory().notify({
+                        name,
+                        clientUserId,
+                        image: image?.base64 as string,
+                        category: getCategoryValue(categoryId)
+                    })
 
-                return odooResponse
+                    return odooResponse
+                }
+
+                if (developer.name === 'Patriani') {
+                    const patrianiResponse = await patrianiFactory().notify({
+                        id: clientUserId as string,
+                        name: name,
+                        date: new Date().toISOString(),
+                        message: `Lead ${name}(${getCategoryValue(categoryId)}) chegou ao stand.`
+                    })
+
+                    return patrianiResponse
+                }
+            } else {
+                if (delayCheck(lastSeen)) {
+                    await this.clientCases.update({ id, name, clientUserId, image, categoryId, lastSeen: new Date().toISOString() })
+                    if (developer.name === 'Odoo') {
+                        const odooResponse = await odooFactory().notify({
+                            name,
+                            clientUserId,
+                            image: image?.base64 as string,
+                            category: getCategoryValue(categoryId)
+                        })
+
+                        return odooResponse
+                    }
+
+                    if (developer.name === 'Patriani') {
+                        const patrianiResponse = await patrianiFactory().notify({
+                            id: clientUserId as string,
+                            name: name,
+                            date: new Date().toISOString(),
+                            message: `Lead ${name}(${getCategoryValue(categoryId)}) chegou ao stand.`
+                        })
+
+                        return patrianiResponse
+                    }
+                }
             }
 
-            if (developer.name === 'Patriani') {
-                const patrianiResponse = await patrianiFactory().notify({
-                    id: clientUserId as string,
-                    name: name,
-                    date: new Date().toISOString(),
-                    message: `Lead ${name}(${getCategoryValue(categoryId)}) chegou ao stand.`
-                })
-
-                return patrianiResponse
-            }
         } else {
             return reply.send(client)
         }

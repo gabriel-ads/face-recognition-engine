@@ -10,9 +10,10 @@ export class Client {
     }
     categoryId: number
     developerId?: number
+    lastSeen?: string
 
     constructor(props: Client) {
-        const { id, name, image, clientUserId, categoryId, developerId } = props
+        const { id, name, image, clientUserId, categoryId, developerId, lastSeen } = props
 
         if (!name) {
             throw new Error('Name cannot be empty')
@@ -40,5 +41,6 @@ export class Client {
         this.clientUserId = clientUserId
         this.categoryId = categoryId
         this.developerId = developerId
+        this.lastSeen = lastSeen
     }
 }

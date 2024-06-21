@@ -21,8 +21,9 @@ model clients {
   name        String    @db.VarChar(255)
   image       Json
   categoryId  Int
-  developer   developers @relation(fields: [developerId], references: [id])
   developerId Int
+  lastSeen    String?
+  developer   developers @relation(fields: [developerId], references: [id])
 }
 
 model developers {
