@@ -107,11 +107,11 @@ Segue abaixo o passo a passo para executar o projeto em cada ambiente:
 ```
 
 ## Tecnologias/Referências
-*[Node](https://nodejs.org/en)
-*[Typescript](https://www.typescriptlang.org/)
-*[Fastify](https://fastify.dev/)
-*[Prisma](https://www.prisma.io/)
-*[Axios](https://axios-http.com/docs/intro)
-*[Bcrypt](https://www.npmjs.com/package/bcrypt)
-*[jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
-*[Dotenv](https://www.npmjs.com/package/dotenv)
+- [Node](https://nodejs.org/en)
+- [Typescript](https://www.typescriptlang.org/)
+- [Fastify](https://fastify.dev/)
+- [Prisma](https://www.prisma.io/)
+- [Axios](https://axios-http.com/docs/intro)
+- [Bcrypt](https://www.npmjs.com/package/bcrypt)
+- [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
+- [Dotenv](https://www.npmjs.com/package/dotenv)
