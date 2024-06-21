@@ -39,11 +39,11 @@ Dessa forma, você já terá instalado todas as dependências do projeto e poder
 Este projeto depende de duas coisas importantes para rodar além da instalação:
 
 * Banco de dados postgres
-1. Esse projeto utiliza *Prisma* como ORM e foi configurado para postgres, ou seja, antes de realizar a migração, isso se tratando de um ambiente local, primeiro baixe e instale o Postgres Admin([pgadmin](https://www.pgadmin.org/download/)), e então cria seu database face-recog ou utilize o do postgres. 
+    1. Esse projeto utiliza *Prisma* como ORM e foi configurado para postgres, ou seja, antes de realizar a migração, isso se tratando de um ambiente local, primeiro baixe e instale o Postgres Admin([pgadmin](https://www.pgadmin.org/download/)), e então cria seu database face-recog ou utilize o do postgres. 
 
 * .env
-1. As variáveis de ambiente são cruciais para o funcionamento do backend, abaixo segue as explicações de cada uma delas.
-2. Cada *Ambiente* deve ter sua .env, no caso, os respectivos valores. Ex: no ambiente de hml o DATABASE_URL deve conter a url do banco para HML e assim PRD na mesma linha.
+    1. As variáveis de ambiente são cruciais para o funcionamento do backend, abaixo segue as explicações de cada uma delas.
+    2. Cada *Ambiente* deve ter sua .env, no caso, os respectivos valores. Ex: no ambiente de hml o DATABASE_URL deve conter a url do banco para HML e assim PRD na mesma linha.
 
 ```dotenv
 # DATABASE_URL é a url do seu banco de dados
@@ -67,18 +67,18 @@ PATRIANI_TOKEN="Bearer Token_fornecido_pelo_cliente"
 Este projeto tem apenas duas branches, *main* e *hml*.
 
 - main
-1. O ambiente _main_ é nosso ambiente de produção, ou seja, é o ambiente que não pode ficar fora do ar nem mesmo ter problemas. Aqui, somente terá as versões de código funcional e sob demanda.
-2. Para colocar qualquer tipo de código nessa branch, deverá ser seguido o [git flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow), ou seja, através de branches e pull request.
-3. A pipeline acontece no próprio bitbucket e o backend está hospedado na EC2(aws).
+    1. O ambiente _main_ é nosso ambiente de produção, ou seja, é o ambiente que não pode ficar fora do ar nem mesmo ter problemas. Aqui, somente terá as versões de código funcional e sob demanda.
+    2. Para colocar qualquer tipo de código nessa branch, deverá ser seguido o [git flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow), ou seja, através de branches e pull request.   
+    3. A pipeline acontece no próprio bitbucket e o backend está hospedado na EC2(aws).
 
 - hml
-1. O ambiente _hml_ serve para a segunda etapa de testes, no caso, coisas que já funcionaram em development.
-2. Permitido fazer integração com clientes e novos sistemas para reconhecimento facial.
-3. Hospedado no [Render](https://render.com/) e database na [Neon Tech](https://neon.tech/). Em caso de não ter acesso ao ambiente de hml, podemos subir novamente esse ambiente em outra conta ou hospedar na AWS.
+    1. O ambiente _hml_ serve para a segunda etapa de testes, no caso, coisas que já funcionaram em development.
+    2. Permitido fazer integração com clientes e novos sistemas para reconhecimento facial.
+    3. Hospedado no [Render](https://render.com/) e database na [Neon Tech](https://neon.tech/). Em caso de não ter acesso ao ambiente de hml, podemos subir novamente esse ambiente em outra conta ou hospedar na AWS.
 
 - development
-1. Não é uma branch, é apenas o ato de codar e testar localmente em uma branch que partiu da master.
-2. Deve ser desenvolvido e testado até onde conseguir dentro desse ambiente.
+    1. Não é uma branch, é apenas o ato de codar e testar localmente em uma branch que partiu da master.
+    2. Deve ser desenvolvido e testado até onde conseguir dentro desse ambiente.
 
 ## Uso
 Segue abaixo o passo a passo para executar o projeto em cada ambiente:
@@ -92,7 +92,8 @@ Segue abaixo o passo a passo para executar o projeto em cada ambiente:
 ```
 
 * HML
-1. Supondo que ainda se encontra no _Render_
+    1. Supondo que ainda se encontra no _Render_
+    
 ```bash
     npm ci && npm run build && prisma db push
     npm run start
