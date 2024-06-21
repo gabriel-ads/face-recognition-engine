@@ -3,7 +3,7 @@
 ## Introdução
 
 O face-recognition-engine foi criado para ser o intermediador entre os _clientes(Incorporadoras)_ e qualquer ferramenta usada para reconhecimento facial.
-Este backend conta com 3 ambientes, Prd, hml e dev(local). Por enquanto, estamos integrados apenas à ferramenta [face-recognition-herta-engine](https://bitbucket.org/smartstaff/face-recognition-herta-engine/src/main/) e apenas com o CRM da patriani(clinte) e nosso Odoo para testes em HML.
+Este backend conta com 3 ambientes, Prd, hml e dev(local). Por enquanto, estamos integrados apenas à ferramenta [face-recognition-herta-engine](https://bitbucket.org/smartstaff/face-recognition-herta-engine/src/main/) e apenas com o CRM da patriani(cliente) e nosso Odoo para testes em HML.
 
 O backend conta com CRUD para _Cliente(client)_ e _Incorporadora(developer)_, além de notificar a Incorporadora(Cliente) com o endpoint notify que a ferramenta herta aciona quando uma face é reconhecida. O CRUD de incorporadora é usado apenas por nossos desenvolvedores, e no momento em que uma incorporadora é criada, esse backend gera um token de acesso(JWT), em caso de *Produção*, esse token será fornecido para o incorporadora e a mesma utilizará esse JWT no header como Authorization para utilizar o CRUD de cliente.
 
