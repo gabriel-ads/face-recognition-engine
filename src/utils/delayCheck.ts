@@ -5,7 +5,7 @@ export function delayCheck(lastSeen: string) {
     const differenceInMilliseconds = now.getTime() - lastSeenDate.getTime();
     const differenceInMinutes = differenceInMilliseconds / (1000 * 60);
 
-    if (differenceInMinutes >= 1) {
+    if (differenceInMinutes >= 60) {
         return true
     } else {
         return false
