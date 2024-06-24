@@ -12,7 +12,7 @@ pipelines:
             - apt-get update && apt-get install -y openssh-client
 
             # Executar o script de deploy na instância EC2
-            - ssh -o StrictHostKeyChecking=no ubuntu@100.26.208.201 'bash -s' < deploy_script.sh
+            - ssh -o StrictHostKeyChecking=no ubuntu@100.28.25.79 'bash -s' < deploy_script.sh
 definitions:
   caches:
     node: ~/.npm
