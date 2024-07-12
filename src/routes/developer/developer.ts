@@ -24,7 +24,7 @@ const deleteDevelopers: RouteHandler = async (request, reply) => {
 
 
 export default function registerDeveloperRoutes(fastify: any, options: any, done: any) {
-    fastify.post('/create', createDevelopers)
+    fastify.post('/create/', createDevelopers)
     fastify.get('/', { preHandler: auth }, readDevelopers);
     fastify.put('/update/:id', { preHandler: auth }, updateDevelopers)
     fastify.delete('/delete/:id', { preHandler: auth }, deleteDevelopers)
