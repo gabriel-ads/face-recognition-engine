@@ -27,11 +27,11 @@ const notifyClients: RouteHandler = async (request, reply) => {
 
 
 export default function registerClientRoutes(fastify: any, options: any, done: any) {
-    fastify.post('/create', { preHandler: auth }, createClients)
+    fastify.post('/create/', { preHandler: auth }, createClients)
     fastify.get('/', { preHandler: auth }, readClients);
     fastify.put('/update/:clientUserId', { preHandler: auth }, updateClients)
     fastify.delete('/delete/:clientUserId', { preHandler: auth }, deleteClients)
-    fastify.post('/notify', notifyClients)
+    fastify.post('/notify/', notifyClients)
 
     done();
 }

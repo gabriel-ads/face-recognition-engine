@@ -28,10 +28,19 @@ export class ClientController implements IClientController {
                 developerId
             })
             if (typeof client !== "string") {
-                const { name, clientUserId, image, categoryId, developerId } = client
+                const { name, clientUserId, image, categoryId, developerId, createdAt, updatedAt } = client
                 await hertaFactory().create({ name, clientUserId: clientUserId.toString(), image, categoryId, developerId: developerId as number })
 
-                return reply.send(client)
+                return reply.send(
+                    {
+                        clientUserId,
+                        createdAt,
+                        updatedAt,
+                        name,
+                        image,
+                        categoryId
+                    }
+                )
             }
         }
     }
@@ -43,7 +52,7 @@ export class ClientController implements IClientController {
 
         const clientObject = client.map(({ clientUserId, name, image, categoryId }) => {
             return {
-                id: clientUserId,
+                clientUserId,
                 name,
                 image,
                 category: getCategoryValue(categoryId)
@@ -84,7 +93,16 @@ export class ClientController implements IClientController {
                 developerId: developerId ? developerId : client.developerId
             })
 
-            return reply.send(updateClientResponse)
+            return reply.send(
+                {
+                    clientUserId: updateClientResponse.clientUserId,
+                    createdAt: updateClientResponse.createdAt,
+                    updatedAt: updateClientResponse.updatedAt,
+                    name: updateClientResponse.name,
+                    image: updateClientResponse.image,
+                    categoryId: updateClientResponse.categoryId
+                }
+            )
         } else {
             reply.send('Usuário não encontrado.')
         }
@@ -169,7 +187,7 @@ export class ClientController implements IClientController {
             }
 
         } else {
-            return reply.send(client)
+            return reply.status(400).send(client)
         }
     }
 }
